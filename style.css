@@ -4551,3 +4551,11 @@ body { background: var(--brisa-arena); }
   #reservas .form-grid { grid-template-columns: 1fr; }
   #reservas #inputPersonas { max-width: 100%; }
 }
+
+
+/* AJUSTE SOLICITADO: CENTRADO DE LETRAS Y BOTONES EN INICIO */
+#inicio > .hero.hero-video { text-align: center !important; justify-content: center !important; }
+#inicio > .hero.hero-video > .hero-txt { text-align: center !important; margin-left: auto !important; margin-right: auto !important; }
+#inicio > .hero.hero-video > .hero-txt h1,
+#inicio > .hero.hero-video > .hero-txt p { text-align: center !important; margin-left: auto; margin-right: auto; }
+#inicio .brisa-hero-acciones { display: flex; justify-content: center !important; align-items: center; flex-wrap: wrap; }
