@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 
 <html lang="es">
@@ -69,7 +70,7 @@
 
     <header class="hero hero-video">
 
-      <video class="hero-video-bg" autoplay muted loop playsinline preload="metadata" poster="img/sombrillas privadas.jpg">
+      <video id="brisa-video-inicio" class="hero-video-bg" autoplay muted loop playsinline webkit-playsinline preload="auto" poster="img/sombrilla-privada.jpg" aria-hidden="true">
 
         <source src="video/brisa-inicio.mp4" type="video/mp4">
 
@@ -77,7 +78,7 @@
 
       <div class="hero-overlay"></div>
 
-      <div class="hero-txt">
+      <div class="hero-txt" style="text-align:center; margin-inline:auto;">
 
         <p class="kicker anim-entrada">BRISA BEACH BAR · PLAYA EL TUNCO</p>
 
@@ -85,7 +86,7 @@
 
         <p class="hero-sub anim-entrada anim-delay-2">Mariscos, bebidas tropicales y experiencias inolvidables frente al océano.</p>
 
-        <div class="brisa-hero-acciones anim-entrada anim-delay-3">
+        <div class="brisa-hero-acciones anim-entrada anim-delay-3" style="justify-content:center;">
 
   <a href="#reservas" data-pagina="reservas" class="btn-main brisa-reservar">RESERVAR MI VISITA</a>
 
@@ -223,7 +224,7 @@
 
           <div class="marco-foto">
 
-            <img src="img/vive la experiencia brisa.jpg" alt="Vive la experiencia Brisa" loading="lazy">
+            <img src="img/Vive la experiencia Brisa.jpg" alt="Vive la experiencia Brisa" loading="lazy">
 
           </div>
 
@@ -251,7 +252,7 @@
 
           <div class="marco-foto">
 
-            <img src="img/nuestras especialidades.jpg" alt="Nuestras especialidades" loading="lazy">
+            <img src="img/Nuestras especialidades.jpg" alt="Nuestras especialidades" loading="lazy">
 
           </div>
 
@@ -379,7 +380,7 @@
 
     <header class="page-hero page-hero-menu menu-video-hero">
 
-      <video class="hero-video-bg" autoplay muted loop playsinline preload="metadata" poster="img/sabores-del-paraiso.jpg">
+      <video class="hero-video-bg" autoplay muted loop playsinline preload="auto" poster="img/sabores-del-paraiso.jpg">
 
         <source src="video/brisa-menu.mp4" type="video/mp4">
 
@@ -471,7 +472,7 @@
 
     <header class="page-hero page-hero-galeria galeria-video-hero">
 
-      <video class="hero-video-bg" autoplay muted loop playsinline preload="metadata" poster="img/atardecer.jpg">
+      <video class="hero-video-bg" autoplay muted loop playsinline preload="auto" poster="img/atardecer.jpg">
 
         <source src="video/brisa-galeria.mp4" type="video/mp4">
 
@@ -613,7 +614,7 @@
 
     <header class="page-hero page-hero-espacios espacios-video-hero">
 
-      <video class="hero-video-bg" autoplay muted loop playsinline preload="metadata" poster="img/espacio-mesa-nueva.jpg">
+      <video class="hero-video-bg" autoplay muted loop playsinline preload="auto" poster="img/espacio-mesa-nueva.jpg">
 
         <source src="video/brisa-espacios.mp4" type="video/mp4">
 
@@ -733,7 +734,7 @@
 
     <header class="page-hero page-hero-ubicacion ubicacion-video-hero">
 
-      <video class="hero-video-bg" autoplay muted loop playsinline preload="metadata" poster="img/espacio-mesa-nueva.jpg">
+      <video class="hero-video-bg" autoplay muted loop playsinline preload="auto" poster="img/espacio-mesa-nueva.jpg">
 
         <source src="video/brisa-ubicacion.mp4" type="video/mp4">
 
@@ -1438,6 +1439,35 @@ document.addEventListener('DOMContentLoaded', function () {
 
 </script>
 
+
+<script>
+/* Reintenta la reproducción automática del video de portada sin afectar otras secciones. */
+(function () {
+  function iniciarVideoBrisa() {
+    const video = document.getElementById('brisa-video-inicio');
+    if (!video) return;
+    video.muted = true;
+    video.defaultMuted = true;
+    video.autoplay = true;
+    video.loop = true;
+    video.playsInline = true;
+    video.setAttribute('muted', '');
+    video.setAttribute('playsinline', '');
+    const reproducir = () => {
+      if (!document.getElementById('inicio')?.classList.contains('activa')) return;
+      const intento = video.play();
+      if (intento && typeof intento.catch === 'function') intento.catch(() => {});
+    };
+    video.addEventListener('loadeddata', reproducir);
+    video.addEventListener('canplay', reproducir);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) reproducir(); });
+    document.addEventListener('pointerdown', reproducir, { once: true });
+    reproducir();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', iniciarVideoBrisa);
+  else iniciarVideoBrisa();
+})();
+</script>
 </body>
 
 </html>
