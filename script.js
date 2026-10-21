@@ -29,8 +29,8 @@ const ESPACIOS = {
     imagen: "img/espacio-sombrilla-nueva.jpg",
     descripcion: "Un espacio para relajarte frente al océano.",
     costo: 15,
-    maxPersonas: 20,
-    condiciones: "Incluye dos sillas. Para grupos grandes, consultá disponibilidad."
+    maxPersonas: 2,
+    condiciones: "Capacidad obligatoria: exactamente 2 personas. Incluye dos sillas."
   },
   grupo: {
     nombre: "Reservaciones para grupos",
@@ -703,11 +703,19 @@ function actualizarOpcionesPersonas() {
   const campo = $("#inputPersonas");
   if (!campo || !espacioSeleccionado) return;
   const maximo = ESPACIOS[espacioSeleccionado].maxPersonas;
-  campo.min = "1";
+  campo.min = espacioSeleccionado === "sombrilla" ? "2" : "1";
   campo.max = String(maximo);
-  campo.placeholder = `De 1 a ${maximo} personas`;
-  if (campo.value && (+campo.value < 1 || +campo.value > maximo)) campo.value = "";
-  $("#ayuda-personas").textContent = `Capacidad máxima: ${maximo} personas.`;
+  campo.placeholder = espacioSeleccionado === "sombrilla" ? "Exactamente 2 personas" : `De 1 a ${maximo} personas`;
+  if (espacioSeleccionado === "sombrilla") {
+    campo.value = "2";
+    campo.readOnly = true;
+  } else {
+    campo.readOnly = false;
+    if (campo.value && (+campo.value < 1 || +campo.value > maximo)) campo.value = "";
+  }
+  $("#ayuda-personas").textContent = espacioSeleccionado === "sombrilla"
+    ? "Capacidad obligatoria: exactamente 2 personas."
+    : `Capacidad máxima: ${maximo} personas.`;
   actualizarResumen();
 }
 /* =========================================
@@ -941,7 +949,8 @@ function iniciarReservaciones() {
       if (
         !Number.isInteger(personas) ||
         personas < 1 ||
-        personas > ESPACIOS[espacioSeleccionado].maxPersonas
+        personas > ESPACIOS[espacioSeleccionado].maxPersonas ||
+        (espacioSeleccionado === "sombrilla" && personas !== 2)
       ) {
         mostrarMensajeReserva(
           "Seleccioná una cantidad válida de personas."
